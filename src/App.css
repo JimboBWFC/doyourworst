@@ -1,44 +1,262 @@
-.heroSub {
-  margin-top: 0.75rem;
-  font-size: 1.1rem;
-  color: #f0f0f0;
-  opacity: 0.9;
+:root {
+  --black: #0b0b0d;
+  --black2: #111116;
+  --panel: rgba(15, 15, 18, 0.72);
+  --panel2: rgba(15, 15, 18, 0.56);
+  --border: rgba(255, 255, 255, 0.12);
+
+  --yellow: #f2c94c;
+  --orange: #ff7a1a;
+  --text: #f2f2f4;
+  --muted: rgba(242, 242, 244, 0.74);
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+    Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: radial-gradient(1200px 700px at 18% 8%, rgba(255, 122, 26, 0.16), transparent 55%),
+    radial-gradient(1000px 650px at 82% 22%, rgba(242, 201, 76, 0.14), transparent 55%),
+    linear-gradient(180deg, var(--black) 0%, var(--black2) 100%);
+  color: var(--text);
+}
+
+.page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Orange streak texture */
+.streaks {
+  position: absolute;
+  inset: -40px;
+  background:
+    linear-gradient(115deg, transparent 0 62%, rgba(255, 122, 26, 0.30) 62% 63%, transparent 63% 100%),
+    linear-gradient(115deg, transparent 0 74%, rgba(255, 122, 26, 0.18) 74% 75%, transparent 75% 100%),
+    linear-gradient(115deg, transparent 0 84%, rgba(255, 122, 26, 0.12) 84% 85%, transparent 85% 100%),
+    linear-gradient(115deg, transparent 0 90%, rgba(242, 201, 76, 0.10) 90% 91%, transparent 91% 100%);
+  opacity: 0.55;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+/* Grain */
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  opacity: 0.12;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 26px 16px 80px;
+}
+
+/* Smaller corner stamp */
+.cornerImage {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  width: 110px; /* smaller */
+  height: auto;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0.92;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.65));
+}
+
+.hero {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  padding: 34px 18px 26px;
+  border: 1px solid var(--border);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Polished “glass” + darken the banner so text always pops */
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+}
+
+/* Dark overlay on banner image */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(900px 420px at 50% 15%, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.70)),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.72));
+  pointer-events: none;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Smaller hero logo */
+.heroImage {
+  width: min(260px, 70vw); /* smaller */
+  height: auto;
+  display: block;
+  margin: 0 auto 14px;
+  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.75));
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(40px, 6.5vw, 64px);
+  font-weight: 1000;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
+}
+
+h1 span {
+  color: var(--yellow);
+  text-shadow: 0 0 22px rgba(242, 201, 76, 0.18);
+}
+
+.heroSub {
+  margin: 10px auto 0;
+  max-width: 52ch;
+  color: rgba(242, 242, 244, 0.88);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.actions button {
+  appearance: none;
+  border: 1px solid rgba(242, 201, 76, 0.38);
+  background: rgba(242, 201, 76, 0.16);
+  color: var(--text);
+  font-weight: 900;
+  padding: 10px 14px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.actions button:hover {
+  border-color: rgba(255, 122, 26, 0.42);
+  box-shadow: 0 0 0 6px rgba(255, 122, 26, 0.12);
+}
+
+.actions button:active {
+  transform: translateY(1px);
+}
+
+.ca {
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(10, 10, 12, 0.35);
+  color: rgba(242, 242, 244, 0.82);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+/* Content blocks now always dark (no white panels) */
 .contentBlock {
-  max-width: 800px;
-  margin: 3rem auto;
+  margin: 18px auto 0;
+  padding: 18px 16px;
+  max-width: 840px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: var(--panel);
+  box-shadow: 0 14px 50px rgba(0, 0, 0, 0.35);
   text-align: center;
-  font-size: 1.05rem;
-  line-height: 1.7;
-  color: #f2f2f2;
 }
 
 .contentBlock p {
-  margin-bottom: 1.5rem;
+  margin: 0 0 14px;
+  line-height: 1.75;
+  color: rgba(242, 242, 244, 0.86);
+  font-size: 16px;
+}
+
+.contentBlock p:last-child {
+  margin-bottom: 0;
 }
 
 .highlight {
-  border: 1px solid rgba(242, 201, 76, 0.35);
-  padding: 2rem;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(242, 201, 76, 0.28);
+  background: linear-gradient(
+    180deg,
+    rgba(242, 201, 76, 0.06),
+    rgba(255, 122, 26, 0.05)
+  ), var(--panel);
 }
 
 .emphasis {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #f2c94c;
+  margin-top: 4px !important;
+  font-size: 20px !important;
+  font-weight: 1000;
+  color: var(--yellow) !important;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .footerBlock {
-  opacity: 0.95;
+  background: var(--panel2);
+}
+
+.footerTag {
+  margin-top: 10px !important;
+  font-weight: 1000;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(242, 201, 76, 0.92) !important;
 }
 
 .disclaimer {
-  margin-top: 2rem;
-  font-size: 0.85rem;
-  opacity: 0.6;
+  margin-top: 14px !important;
+  font-size: 13px !important;
+  opacity: 0.65;
 }
+
+/* Mobile polish */
+@media (max-width: 520px) {
+  .cornerImage {
+    width: 92px;
+    top: 10px;
+    left: 10px;
+  }
+
+  .hero {
+    padding: 30px 14px 22px;
+  }
+
+  .contentBlock {
+    padding: 16px 14px;
+  }
+}
+
 
 

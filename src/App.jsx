@@ -18,26 +18,24 @@ export default function App() {
 
   const copyCA = async () => {
     if (!CONTRACT_ADDRESS || CONTRACT_ADDRESS.includes("PASTE_")) return;
-    await navigator.clipboard.writeText(CONTRACT_ADDRESS);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1200);
+    try {
+      await navigator.clipboard.writeText(CONTRACT_ADDRESS);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1200);
+    } catch {
+      // ignore
+    }
   };
 
   return (
     <div className="page">
-      {/* Corner stamp */}
       <img src={cornerImg} alt="Corner text" className="cornerImage" />
 
-      {/* Background effects */}
-      <div className="streaks" />
-      <div className="grain" />
+      <div className="streaks" aria-hidden="true" />
+      <div className="grain" aria-hidden="true" />
 
       <main className="wrap">
-        {/* HERO */}
-        <section
-          className="hero"
-          style={{ backgroundImage: `url(${bannerImg})` }}
-        >
+        <section className="hero" style={{ backgroundImage: `url(${bannerImg})` }}>
           <img src={heroImg} alt="Do Your Worst" className="heroImage" />
 
           <h1>
@@ -45,18 +43,15 @@ export default function App() {
           </h1>
 
           <p className="heroSub">
-            A satirical meme token for people tired of the noise.
+            A satirical meme token for people sick of the nastiness, the noise, and the “alpha” cosplay.
           </p>
 
           <div className="actions">
-            <button onClick={copyCA}>
-              {copied ? "Copied ✅" : "Copy Contract"}
-            </button>
+            <button onClick={copyCA}>{copied ? "Copied ✅" : "Copy Contract"}</button>
             <div className="ca">{shortCA}</div>
           </div>
         </section>
 
-        {/* STATEMENT */}
         <section className="contentBlock">
           <p>
             Crypto didn’t get toxic overnight.
@@ -65,54 +60,48 @@ export default function App() {
           </p>
 
           <p>
-            Endless call groups. <br />
-            Secret “alpha”. <br />
-            Manufactured hype. <br />
+            Endless call groups. Secret “alpha”. Manufactured hype.
+            <br />
             Public wins. Private exits.
           </p>
 
           <p>
-            We’re not here to fight it. <br />
-            We’re not here to lead it. <br />
-            We’re just here to laugh at it.
+            We’re not here to fix it.
+            <br />
+            We’re here to point at it and laugh.
           </p>
         </section>
 
-        {/* KOL / CABAL POKE */}
         <section className="contentBlock highlight">
           <p>
-            If you need permission to buy… <br />
-            If you’re waiting for a KOL tweet… <br />
-            If you’re scared of being on the wrong side of a cabal…
+            If you need permission to buy…
+            <br />
+            If you’re waiting for a KOL tweet…
+            <br />
+            If you’re worried about the cabals…
           </p>
 
-          <p className="emphasis">
-            This probably isn’t for you.
-          </p>
+          <p className="emphasis">This probably isn’t for you.</p>
         </section>
 
-        {/* FOOTER STATEMENT */}
         <section className="contentBlock footerBlock">
           <p>
-            No roadmap. <br />
-            No promises. <br />
-            No fake moral high ground.
+            No roadmap. No promises. No fake moral high ground.
+            <br />
+            Just a meme. Just a mirror.
           </p>
 
-          <p className="footerTag">
-            Just a meme. <br />
-            Just a mirror. <br />
-            Just… do your worst.
-          </p>
+          <p className="footerTag">Just… do your worst.</p>
 
           <p className="disclaimer">
-            Commentary only. Not financial advice. Not connected to any other
-            project.
+            Commentary only. Not financial advice. Not connected to any other project.
           </p>
         </section>
       </main>
     </div>
   );
 }
+
+
 
 
