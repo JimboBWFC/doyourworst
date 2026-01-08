@@ -1,109 +1,121 @@
-:root {
-  --black: #0b0b0d;
-  --black2: #111116;
-  --panel: rgba(15, 15, 18, 0.72);
-  --panel2: rgba(15, 15, 18, 0.56);
-  --border: rgba(255, 255, 255, 0.12);
+/* =========================================
+   DoYourWorst — App.css (FULL REPLACEMENT)
+   Step 1 + Step 2 (Masonry + Lightbox)
+   ========================================= */
 
-  --yellow: #f2c94c;
-  --orange: #ff7a1a;
-  --text: #f2f2f4;
-  --muted: rgba(242, 242, 244, 0.74);
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
-    Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  background: radial-gradient(1200px 700px at 18% 8%, rgba(255, 122, 26, 0.16), transparent 55%),
-    radial-gradient(1000px 650px at 82% 22%, rgba(242, 201, 76, 0.14), transparent 55%),
-    linear-gradient(180deg, var(--black) 0%, var(--black2) 100%);
-  color: var(--text);
-}
-
+/* Base layout */
 .page {
-  min-height: 100vh;
   position: relative;
-  overflow: hidden;
-}
-
-/* Orange streak texture */
-.streaks {
-  position: absolute;
-  inset: -40px;
-  background:
-    linear-gradient(115deg, transparent 0 62%, rgba(255, 122, 26, 0.30) 62% 63%, transparent 63% 100%),
-    linear-gradient(115deg, transparent 0 74%, rgba(255, 122, 26, 0.18) 74% 75%, transparent 75% 100%),
-    linear-gradient(115deg, transparent 0 84%, rgba(255, 122, 26, 0.12) 84% 85%, transparent 85% 100%),
-    linear-gradient(115deg, transparent 0 90%, rgba(242, 201, 76, 0.10) 90% 91%, transparent 91% 100%);
-  opacity: 0.55;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-
-/* Grain */
-.grain {
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
-  opacity: 0.12;
-  pointer-events: none;
-  mix-blend-mode: overlay;
+  min-height: 100vh;
+  overflow-x: hidden;
+  outline: none;
 }
 
 .wrap {
   position: relative;
-  z-index: 1;
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 26px 16px 80px;
+  z-index: 2;
 }
 
-/* Smaller corner stamp */
+/* Decorative layers (keep subtle) */
+.streaks {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.25;
+  background:
+    radial-gradient(600px 300px at 20% 20%, rgba(245, 180, 0, 0.12), transparent 60%),
+    radial-gradient(700px 400px at 80% 30%, rgba(255, 122, 0, 0.10), transparent 60%),
+    radial-gradient(800px 500px at 50% 90%, rgba(245, 180, 0, 0.08), transparent 60%);
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E");
+}
+
+/* Corner image */
 .cornerImage {
   position: fixed;
-  top: 14px;
-  left: 14px;
-  width: 110px; /* smaller */
+  top: 0;
+  left: 0;
+  width: min(240px, 45vw);
   height: auto;
-  z-index: 1000;
+  opacity: 0.9;
+  z-index: 3;
   pointer-events: none;
-  opacity: 0.92;
-  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.65));
 }
+
+/* =========================================
+   Layout helpers
+   ========================================= */
+
+.section {
+  padding: 88px 20px;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 56px 18px;
+  }
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Optional hook for blocks (non-empty to satisfy linters) */
+.contentBlock {
+  position: relative;
+}
+
+.stack > * + * {
+  margin-top: 24px;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 18px;
+  padding: 22px;
+}
+
+/* =========================================
+   Hero
+   ========================================= */
 
 .hero {
   position: relative;
-  border-radius: 18px;
+  border-radius: 22px;
   overflow: hidden;
-  padding: 34px 18px 26px;
-  border: 1px solid var(--border);
+  padding: 64px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-color: rgba(255, 255, 255, 0.02);
 
-  /* Polished “glass” + darken the banner so text always pops */
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
 }
 
-/* Dark overlay on banner image */
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(900px 420px at 50% 15%, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.70)),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.72));
-  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.62) 0%,
+    rgba(0, 0, 0, 0.70) 60%,
+    rgba(0, 0, 0, 0.78) 100%
+  );
+  z-index: 0;
 }
 
 .hero > * {
@@ -111,152 +123,316 @@ body {
   z-index: 1;
 }
 
-/* Smaller hero logo */
 .heroImage {
-  width: min(260px, 70vw); /* smaller */
+  width: min(240px, 55vw);
   height: auto;
   display: block;
-  margin: 0 auto 14px;
-  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.75));
+  margin: 0 auto 18px auto;
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.55));
 }
 
-h1 {
+.hero h1 {
   margin: 0;
-  font-size: clamp(40px, 6.5vw, 64px);
-  font-weight: 1000;
-  letter-spacing: 0.02em;
+  text-align: center;
+  font-weight: 900;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
-  text-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
+  font-size: clamp(2.1rem, 4vw, 3.2rem);
+  line-height: 1.05;
 }
 
-h1 span {
-  color: var(--yellow);
-  text-shadow: 0 0 22px rgba(242, 201, 76, 0.18);
+.hero h1 span {
+  color: var(--yellow, #f5b400);
+  text-shadow: 0 0 18px rgba(245, 180, 0, 0.18);
 }
 
 .heroSub {
-  margin: 10px auto 0;
-  max-width: 52ch;
-  color: rgba(242, 242, 244, 0.88);
-  font-size: 16px;
-  line-height: 1.55;
+  margin: 14px auto 0 auto;
+  text-align: center;
+  max-width: 62ch;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--muted, #b3b3b3);
 }
 
 .actions {
-  margin-top: 16px;
+  margin-top: 26px;
   display: flex;
-  gap: 10px;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .actions button {
-  appearance: none;
-  border: 1px solid rgba(242, 201, 76, 0.38);
-  background: rgba(242, 201, 76, 0.16);
-  color: var(--text);
-  font-weight: 900;
-  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text, #f2f2f2);
+  padding: 12px 16px;
   border-radius: 14px;
   cursor: pointer;
-  transition: transform 0.08s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  font-weight: 700;
+  transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
 }
 
 .actions button:hover {
-  border-color: rgba(255, 122, 26, 0.42);
-  box-shadow: 0 0 0 6px rgba(255, 122, 26, 0.12);
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 .actions button:active {
-  transform: translateY(1px);
+  transform: translateY(0px);
 }
 
 .ca {
-  padding: 10px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(10, 10, 12, 0.35);
-  color: rgba(242, 242, 244, 0.82);
-  font-weight: 900;
-  letter-spacing: 0.02em;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--muted, #b3b3b3);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.95rem;
 }
 
-/* Content blocks now always dark (no white panels) */
-.contentBlock {
-  margin: 18px auto 0;
-  padding: 18px 16px;
-  max-width: 840px;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: var(--panel);
-  box-shadow: 0 14px 50px rgba(0, 0, 0, 0.35);
-  text-align: center;
+@media (max-width: 768px) {
+  .hero {
+    padding: 52px 18px;
+    border-radius: 18px;
+  }
+
+  .heroImage {
+    width: min(210px, 62vw);
+    margin-bottom: 14px;
+  }
 }
+
+/* =========================================
+   Content blocks
+   ========================================= */
 
 .contentBlock p {
-  margin: 0 0 14px;
-  line-height: 1.75;
-  color: rgba(242, 242, 244, 0.86);
-  font-size: 16px;
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--muted, #b3b3b3);
 }
 
-.contentBlock p:last-child {
-  margin-bottom: 0;
+.contentBlock .emphasis {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  font-weight: 800;
+  color: var(--text, #f2f2f2);
 }
 
-.highlight {
-  border-color: rgba(242, 201, 76, 0.28);
-  background: linear-gradient(
-    180deg,
-    rgba(242, 201, 76, 0.06),
-    rgba(255, 122, 26, 0.05)
-  ), var(--panel);
+.contentBlock.highlight .panel {
+  border-color: rgba(245, 180, 0, 0.20);
+  background: rgba(245, 180, 0, 0.06);
 }
 
-.emphasis {
-  margin-top: 4px !important;
-  font-size: 20px !important;
-  font-weight: 1000;
-  color: var(--yellow) !important;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+.footerBlock .footerTag {
+  font-weight: 900;
+  color: var(--text, #f2f2f2);
+  letter-spacing: -0.02em;
 }
 
-.footerBlock {
-  background: var(--panel2);
+.footerBlock .disclaimer {
+  font-size: 0.95rem;
+  color: rgba(242, 242, 242, 0.72);
 }
 
-.footerTag {
-  margin-top: 10px !important;
-  font-weight: 1000;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: rgba(242, 201, 76, 0.92) !important;
+/* =========================================
+   Gallery — Masonry (CSS Columns)
+   ========================================= */
+
+.galleryHeader {
+  margin-bottom: 22px;
 }
 
-.disclaimer {
-  margin-top: 14px !important;
-  font-size: 13px !important;
-  opacity: 0.65;
+.galleryTitle {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text, #f2f2f2);
 }
 
-/* Mobile polish */
-@media (max-width: 520px) {
-  .cornerImage {
-    width: 92px;
-    top: 10px;
-    left: 10px;
+.gallerySub {
+  margin: 0;
+  max-width: 70ch;
+  color: var(--muted, #b3b3b3);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.masonry {
+  column-count: 4;
+  column-gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .masonry {
+    column-count: 3;
   }
+}
 
-  .hero {
-    padding: 30px 14px 22px;
-  }
-
-  .contentBlock {
-    padding: 16px 14px;
+@media (max-width: 768px) {
+  .masonry {
+    column-count: 2;
+    column-gap: 12px;
   }
 }
+
+.masonryItem {
+  break-inside: avoid;
+  margin: 0 0 16px 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+  transform: translateZ(0);
+  cursor: pointer;
+}
+
+.masonryItem img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: scale(1);
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.masonryItem:hover img {
+  transform: scale(1.03);
+  filter: saturate(1.05);
+}
+
+/* Keyboard focus for accessibility */
+.masonryItem:focus {
+  outline: 2px solid rgba(245, 180, 0, 0.35);
+  outline-offset: 3px;
+}
+
+/* =========================================
+   Lightbox
+   ========================================= */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.lightboxInner {
+  position: relative;
+  width: min(1100px, 96vw);
+  max-height: 88vh;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(10, 10, 10, 0.70);
+  box-shadow: 0 24px 90px rgba(0, 0, 0, 0.65);
+  overflow: hidden;
+}
+
+.lightboxImg {
+  width: 100%;
+  height: 88vh;
+  max-height: 88vh;
+  object-fit: contain;
+  display: block;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Close button */
+.lightboxClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text, #f2f2f2);
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Nav arrows */
+.lightboxNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text, #f2f2f2);
+  width: 44px;
+  height: 54px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 34px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.lightboxNav.left {
+  left: 10px;
+}
+
+.lightboxNav.right {
+  right: 10px;
+}
+
+.lightboxClose:hover,
+.lightboxNav:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+/* Meta */
+.lightboxMeta {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(242, 242, 242, 0.78);
+  font-size: 0.95rem;
+}
+
+.lightboxHint {
+  opacity: 0.85;
+}
+
+/* =========================================
+   Safe fallbacks (index.css can override)
+   ========================================= */
+
+:root {
+  --text: #f2f2f2;
+  --muted: #b3b3b3;
+  --yellow: #f5b400;
+  --orange: #ff7a00;
+}
+
+
+
 
 
 
